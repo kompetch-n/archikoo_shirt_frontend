@@ -4,14 +4,17 @@ export default function TrackingSearch() {
   const [name, setName] = useState("");
   const [results, setResults] = useState([]);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
     setResults([]);
     setMessage("");
+    setLoading(true);
 
-    if (!name) {
+    if (!name.trim()) {
       setMessage("กรุณากรอกชื่อ");
+      setLoading(false);
       return;
     }
 
@@ -24,58 +27,83 @@ export default function TrackingSearch() {
       if (!res.ok) throw new Error("ไม่พบชื่อที่ค้นหา");
       const data = await res.json();
       setResults(data);
+      if (data.length === 0) setMessage("ไม่พบข้อมูลที่ตรงกับชื่อที่กรอก");
     } catch (err) {
       setMessage(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-2xl mt-10 border border-gray-100">
-      <h1 className="text-3xl font-bold text-pink-600 mb-6 text-center">
+    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-2xl mt-10 border border-gray-100">
+      <h1 className="text-2xl md:text-3xl font-bold text-pink-600 mb-6 text-center">
         ค้นหาเลข Tracking Number
       </h1>
 
-      <form onSubmit={handleSearch} className="flex space-x-2 mb-6">
+      {/* 🔍 ช่องค้นหา */}
+      <form
+        onSubmit={handleSearch}
+        className="flex flex-col sm:flex-row gap-3 mb-6"
+      >
         <input
           type="text"
           placeholder="กรอกชื่อ"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="flex-1 p-2 border rounded-md focus:outline-pink-500"
+          className="flex-1 p-3 border rounded-lg focus:ring-2 focus:ring-pink-400 outline-none"
         />
         <button
           type="submit"
-          className="bg-pink-600 text-white px-4 rounded-md hover:bg-pink-700"
+          className="bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 transition"
         >
-          ค้นหา
+          {loading ? "กำลังค้นหา..." : "ค้นหา"}
         </button>
       </form>
 
+      {/* 🧠 ข้อความแจ้งเตือน */}
       {message && (
-        <p className="text-center text-red-600 mb-4">{message}</p>
+        <p className="text-center text-red-600 mb-4 font-medium">{message}</p>
       )}
 
+      {/* 🧾 แสดงผลลัพธ์แบบการ์ด */}
       {results.length > 0 && (
-        <table className="w-full table-auto border-collapse text-center">
-          <thead>
-            <tr className="bg-pink-100 text-gray-700">
-              {/* <th className="border px-4 py-2">Order ID</th> */}
-              <th className="border px-4 py-2">ชื่อ</th>
-              <th className="border px-4 py-2">Tracking Number</th>
-              {/* <th className="border px-4 py-2">สถานะ</th> */}
-            </tr>
-          </thead>
-          <tbody>
-            {results.map((order) => (
-              <tr key={order.id} className="hover:bg-gray-50">
-                {/* <td className="border px-4 py-2">{order.orderId}</td> */}
-                <td className="border px-4 py-2">{order.fullName}</td>
-                <td className="border px-4 py-2">{order.tracking_number || "-"}</td>
-                {/* <td className="border px-4 py-2">{order.status}</td> */}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {results.map((order) => (
+            <div
+              key={order.id}
+              className="border border-gray-200 rounded-xl shadow-sm p-5 bg-gradient-to-br from-pink-50 to-white hover:shadow-md transition"
+            >
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                👤 {order.fullName}
+              </h2>
+              <p className="text-sm text-gray-600 mb-1">
+                <span className="font-medium text-gray-700">Order ID:</span>{" "}
+                {order.orderId || "-"}
+              </p>
+              <p className="text-sm text-gray-600 mb-3">
+                <span className="font-medium text-gray-700">สถานะ:</span>{" "}
+                {order.status || "-"}
+              </p>
+              <div className="bg-pink-100 text-pink-700 font-semibold rounded-md px-3 py-2 text-center">
+                📦 Tracking: {order.tracking_number || "ยังไม่มีเลขพัสดุ"}
+              </div>
+
+              {order.items && order.items.length > 0 && (
+                <div className="mt-3 text-sm text-gray-700">
+                  <p className="font-medium mb-1">รายการเสื้อ:</p>
+                  <ul className="list-disc list-inside">
+                    {order.items.map((item, idx) => (
+                      <li key={idx}>
+                        {item.size} × {item.quantity}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

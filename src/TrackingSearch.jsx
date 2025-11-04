@@ -38,11 +38,11 @@ export default function TrackingSearch() {
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-2xl mt-10 border border-gray-100">
       {/* 🖼️ รูปหน้าปกหลัก */}
-      <div className="w-full h-64 md:h-80 mb-6">
+      <div className="w-full mb-6">
         <img
           src="/cover_archikoo.jpg"
           alt="Archikoo Cover"
-          className="w-full h-full object-cover rounded-xl shadow-sm"
+          className="w-full h-auto object-contain rounded-xl shadow-sm"
         />
       </div>
 

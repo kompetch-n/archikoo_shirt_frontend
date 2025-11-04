@@ -59,19 +59,19 @@ export default function TrackingSearch() {
         <table className="w-full table-auto border-collapse text-center">
           <thead>
             <tr className="bg-pink-100 text-gray-700">
-              <th className="border px-4 py-2">Order ID</th>
+              {/* <th className="border px-4 py-2">Order ID</th> */}
               <th className="border px-4 py-2">ชื่อ</th>
               <th className="border px-4 py-2">Tracking Number</th>
-              <th className="border px-4 py-2">สถานะ</th>
+              {/* <th className="border px-4 py-2">สถานะ</th> */}
             </tr>
           </thead>
           <tbody>
             {results.map((order) => (
               <tr key={order.id} className="hover:bg-gray-50">
-                <td className="border px-4 py-2">{order.orderId}</td>
+                {/* <td className="border px-4 py-2">{order.orderId}</td> */}
                 <td className="border px-4 py-2">{order.fullName}</td>
                 <td className="border px-4 py-2">{order.tracking_number || "-"}</td>
-                <td className="border px-4 py-2">{order.status}</td>
+                {/* <td className="border px-4 py-2">{order.status}</td> */}
               </tr>
             ))}
           </tbody>

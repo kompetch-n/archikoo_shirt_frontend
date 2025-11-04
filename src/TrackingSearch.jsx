@@ -37,6 +37,16 @@ export default function TrackingSearch() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-2xl mt-10 border border-gray-100">
+      {/* 🖼️ รูปหน้าปกหลัก */}
+      <div className="w-full h-64 md:h-80 mb-6">
+        <img
+          src="/cover_archikoo.jpg"
+          alt="Archikoo Cover"
+          className="w-full h-full object-cover rounded-xl shadow-sm"
+        />
+      </div>
+
+      {/* 🏷️ หัวข้อหลัก */}
       <h1 className="text-2xl md:text-3xl font-bold text-pink-600 mb-6 text-center">
         ค้นหาเลข Tracking Number
       </h1>
@@ -72,35 +82,39 @@ export default function TrackingSearch() {
           {results.map((order) => (
             <div
               key={order.id}
-              className="border border-gray-200 rounded-xl shadow-sm p-5 bg-gradient-to-br from-pink-50 to-white hover:shadow-md transition"
+              className="border border-gray-200 rounded-xl shadow-sm bg-gradient-to-br from-pink-50 to-white hover:shadow-md transition overflow-hidden"
             >
-              <h2 className="text-lg font-semibold text-gray-800 mb-2">
-                👤 {order.fullName}
-              </h2>
-              <p className="text-sm text-gray-600 mb-1">
-                <span className="font-medium text-gray-700">Order ID:</span>{" "}
-                {order.orderId || "-"}
-              </p>
-              <p className="text-sm text-gray-600 mb-3">
-                <span className="font-medium text-gray-700">สถานะ:</span>{" "}
-                {order.status || "-"}
-              </p>
-              <div className="bg-pink-100 text-pink-700 font-semibold rounded-md px-3 py-2 text-center">
-                📦 Tracking: {order.tracking_number || "ยังไม่มีเลขพัสดุ"}
-              </div>
+              <div className="p-5">
+                <h2 className="text-lg font-semibold text-gray-800 mb-2">
+                  👤 {order.fullName}
+                </h2>
+                <p className="text-sm text-gray-600 mb-1">
+                  <span className="font-medium text-gray-700">Order ID:</span>{" "}
+                  {order.orderId || "-"}
+                </p>
+                <p className="text-sm text-gray-600 mb-3">
+                  <span className="font-medium text-gray-700">สถานะ:</span>{" "}
+                  {order.status || "-"}
+                </p>
 
-              {order.items && order.items.length > 0 && (
-                <div className="mt-3 text-sm text-gray-700">
-                  <p className="font-medium mb-1">รายการเสื้อ:</p>
-                  <ul className="list-disc list-inside">
-                    {order.items.map((item, idx) => (
-                      <li key={idx}>
-                        {item.size} × {item.quantity}
-                      </li>
-                    ))}
-                  </ul>
+                <div className="bg-pink-100 text-pink-700 font-semibold rounded-md px-3 py-2 text-center mb-3">
+                  📦 Tracking: {order.tracking_number || "ยังไม่มีเลขพัสดุ"}
                 </div>
-              )}
+
+                {/* 👕 รายการเสื้อ */}
+                {order.items && order.items.length > 0 && (
+                  <div className="mt-2 text-sm text-gray-700">
+                    <p className="font-medium mb-1">รายการเสื้อ:</p>
+                    <ul className="list-disc list-inside">
+                      {order.items.map((item, idx) => (
+                        <li key={idx}>
+                          {item.size} × {item.quantity}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>

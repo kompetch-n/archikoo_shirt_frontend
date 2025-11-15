@@ -92,7 +92,7 @@ export default function OrderList() {
   if (loading) return <p className="text-center mt-10">กำลังโหลด...</p>;
 
   return (
-    <div className="max-w-5xl mx-auto p-8 bg-white shadow-lg rounded-2xl mt-10 border border-gray-100">
+    <div className="max-w-6xl mx-auto p-8 bg-white shadow-lg rounded-2xl mt-10 border border-gray-100">
       <h1 className="text-3xl font-bold text-pink-600 mb-6 text-center">
         รายการคำสั่งซื้อทั้งหมด
       </h1>
@@ -169,6 +169,7 @@ export default function OrderList() {
           <tr className="bg-pink-100 text-gray-700">
             <th className="border px-4 py-2">Order ID</th>
             <th className="border px-4 py-2">ชื่อ</th>
+            <th className="border px-4 py-2">ที่อยู่</th>
             <th className="border px-4 py-2">เบอร์โทร</th>
             <th className="border px-4 py-2">สถานะ</th>
             <th className="border px-4 py-2">Tracking Number</th>
@@ -187,6 +188,7 @@ export default function OrderList() {
               <tr key={order.id} className="text-center hover:bg-gray-50">
                 <td className="border px-4 py-2">{order.orderId}</td>
                 <td className="border px-4 py-2">{order.fullName}</td>
+                <td className="border px-4 py-2">{order.address}</td>
                 <td className="border px-4 py-2">{order.phone}</td>
                 <td className="border px-4 py-2">{order.status}</td>
                 <td className="border px-4 py-2">
